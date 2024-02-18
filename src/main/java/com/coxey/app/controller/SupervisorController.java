@@ -8,7 +8,12 @@ import com.coxey.app.service.EmployeeService;
 import com.coxey.app.service.SupervisorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -40,33 +45,17 @@ public class SupervisorController {
     public String newSupervisor(Model model) {
         model.addAttribute("supervisor", new Supervisor());
         model.addAttribute("departmentsTitles", DepartmentTitle.values());
+        model.addAttribute("employee", employeeService.getAllEmployees());
         return "supervisor/new";
     }
 
-    @GetMapping("/addEmployeeToSupervisor")
-    public String test(@ModelAttribute("supervisor") Supervisor supervisor, Model model) {
-        Employee employee = new Employee();
-        Employee employee1 = new Employee();
-        Employee employee2 = new Employee();
-        model.addAttribute("employee", employee);
-        model.addAttribute("jobTitles", JobTitle.values());
-        model.addAttribute("employee1", employee1);
-        model.addAttribute("jobTitles1", JobTitle.values());
-        model.addAttribute("employee2", employee2);
-        model.addAttribute("jobTitles2", JobTitle.values());
-        model.addAttribute("supervisor", supervisor);
-        return "supervisor/addEmployeeToSupervisor";
-    }
-
-    @PostMapping("/addEmployeeToSupervisor")
-    public String addEmployeeToSupervisor(@ModelAttribute("employee") Employee employee, @ModelAttribute("employee1") Employee employee1,
-                                          @ModelAttribute("employee2") Employee employee2, @ModelAttribute("supervisor") Supervisor supervisor) {
-        employeeService.addEmployee(employee);
-        employeeService.addEmployee(employee1);
-        employeeService.addEmployee(employee2);
-        supervisorService.addEmployeeToSupervisor(supervisor, employee);
-        supervisorService.addEmployeeToSupervisor(supervisor, employee1);
-        supervisorService.addEmployeeToSupervisor(supervisor, employee2);
+    @PostMapping("/new")
+    public String addEmployeeToSupervisor(@RequestParam("employeeId") List<Integer> listEmployeeSelectedId, @ModelAttribute("supervisor") Supervisor supervisor) {
+        List<Employee> listEmployee = new ArrayList<>();
+        for(int i = 0; i < listEmployeeSelectedId.size(); i++) {
+            listEmployee.add(employeeService.getEmployeeByIndex(listEmployeeSelectedId.get(i)));
+        }
+        supervisor.setEmployeeList(listEmployee);
         supervisorService.addSupervisor(supervisor);
         return "redirect:/supervisor";
     }
@@ -75,13 +64,19 @@ public class SupervisorController {
     public String editSupervisor(Model model, @PathVariable("id") int id) {
         model.addAttribute("supervisor", supervisorService.getSupervisorById(id));
         model.addAttribute("departmentsTitles", DepartmentTitle.values());
-        model.addAttribute("employee", new Employee());
+        model.addAttribute("employee", employeeService.getAllEmployees());
         model.addAttribute("jobTitles", JobTitle.values());
         return "supervisor/editSupervisor";
     }
 
     @PatchMapping("/{id}")
-    public String updateSupervisor(@ModelAttribute("supervisor") Supervisor supervisor, @PathVariable("id") int id) {
+    public String updateSupervisor(@ModelAttribute("supervisor") Supervisor supervisor, @PathVariable("id") int id,
+                                   @RequestParam("employeeId") List<Integer> listEmployeeSelectedId) {
+        List<Employee> listEmployee = new ArrayList<>();
+        for(int i = 0; i < listEmployeeSelectedId.size(); i++) {
+            listEmployee.add(employeeService.getEmployeeByIndex(listEmployeeSelectedId.get(i)));
+        }
+        supervisor.setEmployeeList(listEmployee);
         supervisorService.updateSupervisor(supervisor, id);
         return "redirect:/supervisor";
     }

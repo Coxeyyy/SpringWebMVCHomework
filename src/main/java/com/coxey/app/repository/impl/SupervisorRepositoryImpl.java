@@ -48,6 +48,7 @@ public class SupervisorRepositoryImpl implements SupervisorRepository {
         Supervisor supervisor1 = getSupervisorById(id);
         supervisor1.setNameSupervisor(supervisor.getNameSupervisor());
         supervisor1.setDepartmentTitle(supervisor.getDepartmentTitle());
+        supervisor1.setEmployeeList(supervisor.getEmployeeList());
     }
 
     @Override

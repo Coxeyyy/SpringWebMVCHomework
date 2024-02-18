@@ -6,18 +6,24 @@
 </head>
 <body>
 
-<form th:method="GET" th:action="@{/supervisor/addEmployeeToSupervisor}">
+<!--<form th:method="GET" th:action="@{/supervisor/addEmployeeToSupervisor}">-->
+<form th:method="POST" th:action="@{/supervisor/new}" th:object="${supervisor}">
     <label for="name">Введите имя начальника: </label>
-    <input type="text" th:field="*{supervisor.nameSupervisor}" id="name"/>
+    <input type="text" th:field="*{nameSupervisor}" id="name"/>
     <br/>
     <div>>
-        <select th:field="*{supervisor.departmentTitle}">
+        <select th:field="*{departmentTitle}">
             <option th:each="departmentTitle: ${departmentsTitles}"
                     th:text="${departmentTitle.value}"
                     th:value="${departmentTitle}">
                 JobTitle</option>
         </select>
     </div>
+
+    <div th:each="employees : ${employee}">
+        <input type="checkbox" th:value="${employees.id}" th:text="${employees.name}" name="employeeId">
+    </div>
+
     <input type="submit" value="Создать"/>
 </form>
 </body>

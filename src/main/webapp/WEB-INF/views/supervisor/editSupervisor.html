@@ -19,6 +19,12 @@
         </select>
     </div>
     <br/>
+
+    <div th:each="employees : ${employee}">
+        <input type="checkbox" th:value="${employees.id}" th:text="${employees.name}" name="employeeId">
+    </div>
+
+    <br/>
     <input type="submit" value="Обновить"/>
     <br/>
     <a href="/supervisor">Назад</a>
