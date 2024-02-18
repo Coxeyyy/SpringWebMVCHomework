@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/supervisor/addEmployeeToSupervisor}">
+    <input type="submit" value="Создать"/>
+    <br/>
+    <br/>
+            <label for="name1">Введите имя первого работника: </label>
+            <input type="text" th:field="${employee.name}" id="name1"/>
+            <br/>
+            <div>
+                <select th:field="${employee.jobTitle}">
+                    <option th:each="jobTitle: ${jobTitles}"
+                            th:text="${jobTitle.value}"
+                            th:value="${jobTitle}">
+                        JobTitle</option>
+                </select>
+            </div>
+    <br/>
+    <br/>
+
+        <label for="name2">Введите имя второго работника: </label>
+        <input type="text" th:field="*{employee1.name}" id="name2"/>
+        <br/>
+        <div>>
+            <select th:field="*{employee1.jobTitle}">
+                <option th:each="jobTitle: ${jobTitles1}"
+                        th:text="${jobTitle.value}"
+                        th:value="${jobTitle}">
+                    JobTitle</option>
+            </select>
+        </div>
+        <br/>
+
+        <label for="name3">Введите имя третьего работника: </label>
+        <input type="text" th:field="*{employee2.name}" id="name3"/>
+        <br/>
+        <div>>
+            <select th:field="*{employee2.jobTitle}">
+                <option th:each="jobTitle: ${jobTitles2}"
+                        th:text="${jobTitle.value}"
+                        th:value="${jobTitle}">
+                    JobTitle</option>
+            </select>
+        </div>
+        <br/>
+
+    <input type="text" th:field="${supervisor.nameSupervisor}"/>
+    <input type="text" th:field="${supervisor.departmentTitle}"/>
+    <input type="text" th:field="${supervisor.id}"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все начальники</title>
+</head>
+<body>
+Все начальники
+<div th:each="supervisors : ${supervisor}">
+    <a th:href="@{/supervisor/{id}(id=${supervisors.getId()})}" th:text="${supervisors.getNameSupervisor()}">supervisors</a>
+</div>
+<br/>
+<a href="/supervisor/new">Создать нового начальника</a>
+<br/>
+<a href="/">Назад</a>
+</body>
+</html>

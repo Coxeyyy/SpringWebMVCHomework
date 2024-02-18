@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Начальник</title>
+</head>
+<body>
+Начальник
+<p th:text="${supervisor.getNameSupervisor()}">VALUE</p>
+<p th:text="${supervisor.getId()}">VALUE</p>
+<p th:text="${supervisor.getDepartmentTitle()}">VALUE</p>
+<br/>
+<br/>
+Работники начальника
+<div th:each="employees : ${employee}">
+    <a th:href="@{/employee/{id}(id=${employees.getId()})}" th:text="${employees.getName()}">employee</a>
+</div>
+<br/>
+<a href="/supervisor">Назад</a>
+<br/>
+<a th:href="@{/supervisor/{id}/edit(id=${supervisor.getId()})}">Изменить параметры начальника</a>
+<br/>
+<form th:method="DELETE" th:action="@{/supervisor/{id}(id=${supervisor.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+</body>
+</html>
