@@ -6,7 +6,6 @@
 </head>
 <body>
 
-<!--<form th:method="GET" th:action="@{/supervisor/addEmployeeToSupervisor}">-->
 <form th:method="POST" th:action="@{/supervisor/new}" th:object="${supervisor}">
     <label for="name">Введите имя начальника: </label>
     <input type="text" th:field="*{nameSupervisor}" id="name"/>

@@ -3,10 +3,12 @@ package com.coxey.app.controller;
 import com.coxey.app.model.Employee;
 import com.coxey.app.model.JobTitle;
 import com.coxey.app.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("employee")
@@ -38,7 +40,12 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    public String createEmployee(@ModelAttribute("employee") Employee employee) {
+    public String createEmployee(@ModelAttribute("employee") @Valid Employee employee,
+                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("jobTitles", JobTitle.values());
+            return "employee/new";
+        }
         employeeService.addEmployee(employee);
         return "redirect:/employee";
     }

@@ -35,7 +35,7 @@ public class SupervisorController {
     }
 
     @GetMapping("/{id}")
-    public String showEmployeeById(Model model, @PathVariable("id") int id) {
+    public String showSupervisorById(Model model, @PathVariable("id") int id) {
         model.addAttribute("supervisor", supervisorService.getSupervisorById(id));
         model.addAttribute("employee", supervisorService.getEmployeeByIdSupervisor(id));
         return "supervisor/showByIndex";
